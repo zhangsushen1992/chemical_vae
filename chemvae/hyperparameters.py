@@ -25,19 +25,19 @@ def load_params(param_file=None, verbose=True):
         'loss': 'categorical_crossentropy', # set reconstruction loss
 
         # convolution parameters
-        'batchnorm_conv': True,
+        'batchnorm_conv': False,
         'conv_activation': 'tanh',
-        'conv_depth': 4,
+        'conv_depth': 2, #4,
         'conv_dim_depth': 8,
         'conv_dim_width': 8,
         'conv_d_growth_factor': 1.15875438383,
         'conv_w_growth_factor': 1.1758149644,
 
         # decoder parameters
-        'gru_depth': 4,
+        'gru_depth': 2,#4,
         'rnn_activation': 'tanh',
         'recurrent_dim': 50,
-        'do_tgru': True,                # use custom terminal gru layer 
+        'do_tgru': False,                # use custom terminal gru layer 
         'terminal_GRU_implementation': 0, # use CPU intensive implementation; other implementation modes (1 - GPU, 2- memory) are not yet implemented
         'tgru_dropout': 0.0,
         'temperature': 1.00,            # amount of noise for sampling the final output 
@@ -45,7 +45,7 @@ def load_params(param_file=None, verbose=True):
         # middle layer parameters 
         'hg_growth_factor': 1.4928245388, # growth factor applied to determine size of next middle layer.
         'hidden_dim': 100,
-        'middle_layer': 1,
+        'middle_layer': 2,
         'dropout_rate_mid': 0.0,
         'batchnorm_mid': True,          # apply batch normalization to middle layers
         'activation': 'tanh',
