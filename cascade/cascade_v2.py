@@ -2,6 +2,7 @@ import sys
 sys.path.append(".")
 import os
 print(os.getcwd())
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 import argparse
 import numpy as np
 from keras import backend as K
@@ -12,7 +13,6 @@ from keras.layers.core import Dense, Flatten, RepeatVector, Dropout
 from keras.layers.convolutional import Convolution1D
 from keras.layers.recurrent import GRU
 from keras.layers.normalization import BatchNormalization
-
 from chemvae import hyperparameters
 from chemvae.train_vae import vectorize_data
 # from chemvae.models import encoder_model, decoder_model
@@ -70,7 +70,7 @@ def final_model(params):
     else:
         middle = x
 
-    print('MMMMMMM',middle.shape)
+   
     print(params['hidden_dim'])
 
     z = Dense(int(params['hidden_dim']),
@@ -218,12 +218,12 @@ def CascadeTraining(params,model,X_train,Y_train,X_test,Y_test,stringOfHistory=N
                                   'z_mean_log_var':np.ones((np.shape(X_train)[0], params['hidden_dim'] * 2))}
             model_test_targets = {'x_pred':X_test,
                                   'z_mean_log_var':np.ones((np.shape(X_test)[0], params['hidden_dim'] * 2))}
-            tmpHistory=nextModelToTrain.fit(X_train, model_train_targets,
+            tmpHistory=nextModelToTrain.fit(X_train, X_train,
                                 batch_size=params['batch_size'],
                                 epochs=params['epochs'],
                                 initial_epoch=params['prev_epochs'],
-                                verbose=params['verbose_print'])
-                                # validation_data=[X_test, model_test_targets])
+                                verbose=params['verbose_print'],
+                                validation_data=[X_test, X_test])
         
             history['iter'+str(i)]['lossTraining'] = tmpHistory.history['loss']
             history['iter'+str(i)]['accuracyTraining'] = tmpHistory.history['acc']
